@@ -1,0 +1,49 @@
+import random
+import string
+
+def generate_password(length=16):
+    """
+    Generates a random, secure password.
+    
+    Args:
+        length (int): The desired length of the password. Defaults to 16.
+        
+    Returns:
+        str: The generated password.
+    """
+    # Combine uppercase, lowercase, numbers, and special characters
+    all_characters = string.ascii_letters + string.digits + string.punctuation
+    
+    # Ensure the password has at least one of each character type for extra security
+    password = [
+        random.choice(string.ascii_lowercase),
+        random.choice(string.ascii_uppercase),
+        random.choice(string.digits),
+        random.choice(string.punctuation)
+    ]
+    
+    # Fill the rest of the password length with random choices from all characters
+    password += [random.choice(all_characters) for _ in range(length - 4)]
+    
+    # Shuffle the list to ensure the first four characters aren't predictable
+    random.shuffle(password)
+    
+    # Join the list into a single string
+    return ''.join(password)
+
+if __name__ == "__main__":
+    print("Welcome to the Password Generator!")
+    
+    try:
+        user_length = int(input("How long do you want your password to be? (Enter a number, e.g., 16): "))
+        if user_length < 4:
+            print("Password should be at least 4 characters long. Defaulting to 12.")
+            user_length = 12
+            
+        new_password = generate_password(user_length)
+        print("\n" + "-"*30)
+        print(f"Your secure password is: {new_password}")
+        print("-"*30 + "\n")
+        
+    except ValueError:
+        print("Please enter a valid number. Run the script again.")
